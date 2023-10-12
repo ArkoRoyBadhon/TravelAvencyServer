@@ -12,16 +12,16 @@ router.get(
   authPermission(ENUM_USER_ROLE.ADMIN),
   userController.getAllUsers,
 )
-// router.get(
-//   '/users/:id',
-//   authPermission(ENUM_USER_ROLE.ADMIN),
-//   userController.getSingleUserById,
-// )
-// router.patch(
-//   '/users/:id',
-//   authPermission(ENUM_USER_ROLE.ADMIN),
-//   userController.updateUserById,
-// )
+router.get(
+  '/users/:id',
+  authPermission(ENUM_USER_ROLE.ADMIN),
+  userController.getSingleUserById,
+)
+router.patch(
+  '/users/:id',
+  authPermission(ENUM_USER_ROLE.ADMIN),
+  userController.updateUserById,
+)
 // router.delete(
 //   '/users/:id',
 //   authPermission(ENUM_USER_ROLE.ADMIN),

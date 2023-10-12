@@ -55,30 +55,30 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-// const getSingleUserById = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id
-//   const result = await userService.getSingleUserById(id)
+const getSingleUserById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+  const result = await userService.getSingleUserById(id)
 
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'User fetched successfully!',
-//     data: result,
-//   })
-// })
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User fetched successfully!',
+    data: result,
+  })
+})
 
-// const updateUserById = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id
-//   const payload = req.body
-//   await userService.updateUserById(id, payload)
+const updateUserById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+  const payload = req.body
+  await userService.updateUserById(id, payload)
 
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'User updated  successfully!',
-//     data: {},
-//   })
-// })
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated  successfully!',
+    data: {},
+  })
+})
 
 // const deleteUserById = catchAsync(async (req: Request, res: Response) => {
 //   const id = req.params.id
@@ -108,8 +108,8 @@ export const userController = {
   insertIntoDB,
   loginUser,
   getAllUsers,
-  //   getSingleUserById,
-  //   updateUserById,
+  getSingleUserById,
+  updateUserById,
   //   deleteUserById,
   //   getProfile,
 }
