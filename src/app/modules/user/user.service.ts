@@ -109,15 +109,15 @@ const updateUserById = async (
   return result
 }
 
-// const deleteUserById = async (id: string) => {
-//   const result = await prisma.user.delete({
-//     where: {
-//       id,
-//     },
-//   })
+const deleteUserById = async (id: string) => {
+  const result = await prisma.user.delete({
+    where: {
+      id,
+    },
+  })
 
-//   return result
-// }
+  return result
+}
 
 // const getProfile = async (token: string | string[] | undefined) => {
 //   if (!token) {
@@ -156,6 +156,6 @@ export const userService = {
   getAllUsers,
   getSingleUserById,
   updateUserById,
-  //   deleteUserById,
+  deleteUserById,
   //   getProfile,
 }

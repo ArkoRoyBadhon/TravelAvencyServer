@@ -80,17 +80,17 @@ const updateUserById = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-// const deleteUserById = catchAsync(async (req: Request, res: Response) => {
-//   const id = req.params.id
-//   await userService.deleteUserById(id)
+const deleteUserById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+  await userService.deleteUserById(id)
 
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'User deleted   successfully!',
-//     data: {},
-//   })
-// })
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User deleted   successfully!',
+    data: {},
+  })
+})
 
 // const getProfile = catchAsync(async (req: Request, res: Response) => {
 //   const token = req.headers.authorization || req.headers.Authorization
@@ -110,6 +110,6 @@ export const userController = {
   getAllUsers,
   getSingleUserById,
   updateUserById,
-  //   deleteUserById,
+  deleteUserById,
   //   getProfile,
 }
