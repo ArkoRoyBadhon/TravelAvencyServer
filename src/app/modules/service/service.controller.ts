@@ -26,7 +26,20 @@ const getAllServices = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+const getReviewsByService = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id
+  const result = await serviceService.getReviewsByService(id)
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Review retrieved successfully!',
+    data: result,
+  })
+})
+
 export const serviceController = {
   insertIntoDB,
   getAllServices,
+  getReviewsByService,
 }

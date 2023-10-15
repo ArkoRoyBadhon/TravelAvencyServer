@@ -26,6 +26,7 @@ router.get(
 router.patch(
   '/users/:id',
   authPermission(ENUM_USER_ROLE.ADMIN),
+  validateRequest(UserValidation.updateUser),
   userController.updateUserById,
 )
 router.delete(

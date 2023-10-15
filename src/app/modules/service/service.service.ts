@@ -13,6 +13,8 @@ const insertIntoDB = async (req: Request): Promise<Service> => {
   if (uploadedImage) {
     req.body.img = uploadedImage.secure_url
     const data = req.body
+    console.log('Data', data)
+
     const result = await prisma.service.create({ data })
     return result
   } else {
@@ -26,7 +28,24 @@ const getAllServices = async (): Promise<Partial<Service>[] | null> => {
   return result
 }
 
+const getReviewsByService = async (
+  id: string,
+): Promise<Partial<Service> | null> => {
+  const result = await prisma.service.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      Reviews: true,
+    },
+  })
+
+  return result
+}
+
 export const serviceService = {
   insertIntoDB,
   getAllServices,
+  getReviewsByService,
+  // updateService, // pricing, descriptions and availability
 }

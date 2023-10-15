@@ -21,11 +21,12 @@ router.get(
   serviceController.getAllServices,
 )
 
-// router.get(
-//   '/users/:id',
-//   authPermission(ENUM_USER_ROLE.ADMIN),
-//   userController.getSingleUserById,
-// )
+router.get(
+  '/service/:id',
+  // authPermission(ENUM_USER_ROLE.ADMIN),
+  serviceController.getReviewsByService,
+)
+
 // router.patch(
 //   '/users/:id',
 //   authPermission(ENUM_USER_ROLE.ADMIN),

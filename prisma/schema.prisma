@@ -45,6 +45,11 @@ enum ServiceType {
   economic
 }
 
+enum SeatType {
+  single
+  double
+}
+
 model Service {
   id String @id @default(uuid())
 
@@ -55,14 +60,26 @@ model Service {
   pickupTime     DateTime
   duration       String
   availableSeats Int
-  hotelSeatType  String[]
-  imgGallery     String[]
+  hotelSeatType  SeatType    @default(single)
   detail         Json
   price          Int
   type           ServiceType @default(economic)
 
   userInfo User   @relation(fields: [userId], references: [id])
   userId   String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Reviews   Reviews[]
+}
+
+model Reviews {
+  id      String @id @default(uuid())
+  reviews String
+  ratings Int
+
+  service   Service @relation(fields: [serviceId], references: [id])
+  serviceId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

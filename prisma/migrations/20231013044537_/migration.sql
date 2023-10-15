@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "ServiceType" AS ENUM ('vip', 'economic');
 
+-- CreateEnum
+CREATE TYPE "SeatType" AS ENUM ('single', 'double');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -41,8 +44,7 @@ CREATE TABLE "Service" (
     "pickupTime" TIMESTAMP(3) NOT NULL,
     "duration" TEXT NOT NULL,
     "availableSeats" INTEGER NOT NULL,
-    "hotelSeatType" TEXT[],
-    "imgGallery" TEXT[],
+    "hotelSeatType" "SeatType" NOT NULL DEFAULT 'single',
     "detail" JSONB NOT NULL,
     "price" INTEGER NOT NULL,
     "type" "ServiceType" NOT NULL DEFAULT 'economic',
@@ -51,6 +53,18 @@ CREATE TABLE "Service" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Service_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Reviews" (
+    "id" TEXT NOT NULL,
+    "reviews" TEXT NOT NULL,
+    "ratings" INTEGER NOT NULL,
+    "serviceId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Reviews_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -64,3 +78,6 @@ ALTER TABLE "Feedback" ADD CONSTRAINT "Feedback_userId_fkey" FOREIGN KEY ("userI
 
 -- AddForeignKey
 ALTER TABLE "Service" ADD CONSTRAINT "Service_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
