@@ -15,17 +15,34 @@ router.post(
 router.post('/auth/signin', userController.loginUser)
 router.get(
   '/users',
-  authPermission(ENUM_USER_ROLE.ADMIN),
+  authPermission(
+    ENUM_USER_ROLE.USER,
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.SUPER_ADMIN,
+  ),
   userController.getAllUsers,
 )
 router.get(
-  '/users/:id',
+  '/normal-users',
   authPermission(ENUM_USER_ROLE.ADMIN),
+  userController.getAllNormalUsers,
+)
+router.get(
+  '/users/:id',
+  authPermission(
+    ENUM_USER_ROLE.USER,
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.SUPER_ADMIN,
+  ),
   userController.getSingleUserById,
 )
 router.patch(
   '/users/:id',
-  authPermission(ENUM_USER_ROLE.ADMIN),
+  authPermission(
+    ENUM_USER_ROLE.USER,
+    ENUM_USER_ROLE.ADMIN,
+    ENUM_USER_ROLE.SUPER_ADMIN,
+  ),
   validateRequest(UserValidation.updateUser),
   userController.updateUserById,
 )

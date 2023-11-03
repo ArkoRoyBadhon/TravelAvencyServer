@@ -10,21 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model User {
-  id         String     @id @default(uuid())
-  name       String
-  email      String     @unique
-  password   String
-  contactNo  String     @unique
-  age        Int?
-  role       String     @default("user")
-  bloodGroup String?
-  city       String?
-  address    String?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  Feedback   Feedback[]
-  Service    Service[]
+  id             String           @id @default(uuid())
+  name           String
+  email          String           @unique
+  password       String
+  contactNo      String           @unique
+  age            Int?
+  role           String           @default("user")
+  bloodGroup     String?
+  city           String?
+  address        String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  Feedback       Feedback[]
+  Service        Service[]
+  serviceBooking serviceBooking[]
 }
 
 model Feedback {
@@ -40,10 +43,6 @@ model Feedback {
   updatedAt DateTime @updatedAt
 }
 
-enum ServiceType {
-  vip
-  economic
-}
 
 enum SeatType {
   single
@@ -61,9 +60,9 @@ model Service {
   duration       String
   availableSeats Int
   hotelSeatType  SeatType    @default(single)
-  detail         Json
+  description    String
+  availability   Boolean
   price          Int
-  type           ServiceType @default(economic)
 
   userInfo User   @relation(fields: [userId], references: [id])
   userId   String
@@ -81,6 +80,46 @@ model Reviews {
   service   Service @relation(fields: [serviceId], references: [id])
   serviceId String
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id    String @id @default(uuid())
+  title String
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  blogContent blogContent[]
+}
+
+model blogContent {
+  id          String @id @default(uuid())
+  title       String
+  img         String
+  description String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model faqContent {
+  id          String @id @default(uuid())
+  title       String
+  description String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model serviceBooking {
+  id        String   @id @default(uuid())
+  booked    User     @relation(fields: [bookedBy], references: [id])
+  bookedBy  String
+  serviceId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

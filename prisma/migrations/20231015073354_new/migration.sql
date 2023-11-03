@@ -45,7 +45,8 @@ CREATE TABLE "Service" (
     "duration" TEXT NOT NULL,
     "availableSeats" INTEGER NOT NULL,
     "hotelSeatType" "SeatType" NOT NULL DEFAULT 'single',
-    "detail" JSONB NOT NULL,
+    "description" TEXT NOT NULL,
+    "availability" BOOLEAN NOT NULL,
     "price" INTEGER NOT NULL,
     "type" "ServiceType" NOT NULL DEFAULT 'economic',
     "userId" TEXT NOT NULL,
@@ -67,6 +68,40 @@ CREATE TABLE "Reviews" (
     CONSTRAINT "Reviews_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Category" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "blogContent" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "img" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "categoryId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "blogContent_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "faqContent" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "faqContent_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -81,3 +116,6 @@ ALTER TABLE "Service" ADD CONSTRAINT "Service_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Reviews" ADD CONSTRAINT "Reviews_serviceId_fkey" FOREIGN KEY ("serviceId") REFERENCES "Service"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "blogContent" ADD CONSTRAINT "blogContent_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

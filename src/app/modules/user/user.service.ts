@@ -84,6 +84,26 @@ const getAllUsers = async (): Promise<Partial<User>[]> => {
 
   return result
 }
+const getAllNormalUsers = async (): Promise<Partial<User>[]> => {
+  const result = await prisma.user.findMany({
+    where: {
+      role: 'user',
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      contactNo: true,
+      age: true,
+      role: true,
+      bloodGroup: true,
+      city: true,
+      address: true,
+    },
+  })
+
+  return result
+}
 
 const getSingleUserById = async (id: string): Promise<User | null> => {
   const result = await prisma.user.findUnique({
@@ -110,50 +130,56 @@ const updateUserById = async (
 }
 
 const deleteUserById = async (id: string) => {
-  const result = await prisma.user.delete({
+  const services = await prisma.service.findMany({
+    where: {
+      userId: id,
+    },
+    select: {
+      id: true,
+    },
+  })
+
+  const deleteServiceReviews = services.map(service =>
+    prisma.reviews.deleteMany({
+      where: {
+        serviceId: service.id,
+      },
+    }),
+  )
+
+  const deleteServices = prisma.service.deleteMany({
+    where: {
+      userId: id,
+    },
+  })
+
+  const deleteUserBookings = prisma.serviceBooking.deleteMany({
+    where: {
+      bookedBy: id,
+    },
+  })
+
+  const deleteUser = prisma.user.delete({
     where: {
       id,
     },
   })
 
+  const result = await prisma.$transaction([
+    ...deleteServiceReviews,
+    deleteServices,
+    deleteUserBookings,
+    deleteUser,
+  ])
+
   return result
 }
-
-// const getProfile = async (token: string | string[] | undefined) => {
-//   if (!token) {
-//     throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized')
-//   }
-
-//   let verifiedUser = null
-
-//   if (typeof token === 'string') {
-//     verifiedUser = jwtHelpers.verifyToken(token, config.jwt.secret as Secret)
-//   } else {
-//     console.error('Token is not a valid string')
-//   }
-
-//   const result = await prisma.user.findUnique({
-//     where: {
-//       id: verifiedUser?.userId,
-//     },
-//     // select: {
-//     //   id: true,
-//     //   name: true,
-//     //   email: true,
-//     //   role: true,
-//     //   contactNo: true,
-//     //   address: true,
-//     //   profileImg: true,
-//     // },
-//   })
-
-//   return result
-// }
 
 export const userService = {
   insertIntoDB,
   loginUser,
   getAllUsers,
+  getAllNormalUsers,
   getSingleUserById,
   updateUserById,
   deleteUserById,

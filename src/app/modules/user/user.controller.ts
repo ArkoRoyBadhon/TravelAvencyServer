@@ -54,6 +54,16 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
     data: result,
   })
 })
+const getAllNormalUsers = catchAsync(async (req: Request, res: Response) => {
+  const result = await userService.getAllNormalUsers()
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User retrieved successfully!',
+    data: result,
+  })
+})
 
 const getSingleUserById = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id
@@ -92,22 +102,11 @@ const deleteUserById = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
-// const getProfile = catchAsync(async (req: Request, res: Response) => {
-//   const token = req.headers.authorization || req.headers.Authorization
-//   const result = await userService.getProfile(token)
-
-//   sendResponse(res, {
-//     statusCode: httpStatus.OK,
-//     success: true,
-//     message: 'profile retrieve successfully!',
-//     data: result,
-//   })
-// })
-
 export const userController = {
   insertIntoDB,
   loginUser,
   getAllUsers,
+  getAllNormalUsers,
   getSingleUserById,
   updateUserById,
   deleteUserById,
